@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Therese</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="Helpless from HAMILTON.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="bg-hearts" id="bg-hearts"></div>
+    <div id="bg-photos"></div>
+
+    <div class="container" id="mainCard">
+        
+        <div id="screen1" class="screen active">
+            <h1>Login</h1>
+            <p>Please identify yourself to proceed.</p>
+            <input type="text" id="nameInput" placeholder="Enter your first name..." autocomplete="off">
+            <button class="btn" onclick="checkName()">Enter</button>
+            <div class="error-msg" id="errorMsg">WHOOPSIES! Access Denied: Yk who you are ma'am.</div>
+        </div>
+
+        <div id="screen2" class="screen">
+            <img src="https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUyNHNqMXZ0enFmMzR3a3NoZnFmc28zN2h3dTFnYW1lM3EzMm55aWltaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/i7lbNw8UcfF6GzrWTe/200.gif" 
+                 alt="Cute Bear" class="cute-gif">
+            <h1>Will you be my Valentine?</h1>
+            <p>It would make me the happiest person...</p>
+            <div class="btn-group">
+                <button class="btn btn-yes" id="yesBtn" onclick="acceptValentine()">YES</button>
+                <button class="btn btn-no" id="noBtn" onclick="rejectValentine()">NO</button>
+            </div>
+        </div>
+
+        <div id="screen3" class="screen">
+            <div class="flower-wrapper">
+                <div class="stem">
+                    <div class="leaf left"></div>
+                    <div class="leaf right"></div>
+                    <div class="flower-head">
+                        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                        <div class="center-bud"></div>
+                    </div>
+                </div>
+            </div>
+            <h1>YAAAY!</h1>
+            <p style="margin-top: 10px;">
+                Thank you for accepting <b>MEE</b> to be your Valentine! <br> 
+                Happy Valentine's Day ma love! ❤️
+            </p>
+        </div>
+    </div>
+
+    <script>
+        //Add your photo names here
+        // The code assumes they are in the 'pics/' folder
+        const YOUR_PHOTOS = [
+            'image1.jpeg',
+            'image2.jpeg',
+            'image3.jpeg',
+            'image4.jpeg',
+        ];
+
+
+        // --- Background Hearts ---
+        function createHearts() {
+            const bg = document.getElementById('bg-hearts');
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-bg');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 5 + 6 + 's'; 
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                bg.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // --- Navigation ---
+        function switchScreen(fromId, toId) {
+            const fromScreen = document.getElementById(fromId);
+            const toScreen = document.getElementById(toId);
+            fromScreen.classList.remove('active');
+            setTimeout(() => {
+                toScreen.classList.add('active');
+            }, 100);
+        }
+
+        // Verification 
+        function checkName() {
+            const input = document.getElementById('nameInput');
+            const error = document.getElementById('errorMsg');
+            const card = document.getElementById('mainCard');
+            const music = document.getElementById('bgMusic');
+            const val = input.value.trim().toLowerCase();
+
+            if (val === 'therese') {
+                switchScreen('screen1', 'screen2');
+                music.volume = 0.5;
+                music.play().catch(e => console.log("Audio play failed:", e));
+            } else {
+                error.style.opacity = '1';
+                card.classList.add('shake-anim');
+                setTimeout(() => { card.classList.remove('shake-anim'); }, 400);
+            }
+        }
+
+        // Button Interaction (New Logic) ---
+        let yesScale = 1;
+        let noScale = 1;
+
+        function rejectValentine() {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+
+            //Increase Yes Size
+            yesScale += 0.2; // Grows by 20% each click
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // 2. Decrease No Size
+            noScale -= 0.1; // Shrinks by 10% each click
+            noBtn.style.transform = `scale(${noScale})`;
+
+            // 3. Make the transition smooth via JS
+            yesBtn.style.transition = "transform 0.2s ease";
+            noBtn.style.transition = "transform 0.2s ease";
+
+            // Optional: If "No" gets too small, make it invisible/unclickable
+            if (noScale < 0.2) {
+                noBtn.style.display = 'none';
+            }
+        }
+
+        // --- Screen 3: Acceptance ---
+        function acceptValentine() {
+            switchScreen('screen2', 'screen3');
+            launchConfetti();
+            popPhotos();
+        }
+
+        // --- Photo Popups (UPDATED: 4 Corners Logic) ---
+        function popPhotos() {
+            const container = document.getElementById('bg-photos');
+            
+            // Define the four corner positions (Top-Left, Top-Right, Bottom-Left, Bottom-Right)
+            const cornerPositions = [
+                { left: '5%', top: '5%' },
+                { left: '75%', top: '5%' },
+                { left: '5%', top: '70%' },
+                { left: '75%', top: '70%' }
+            ];
+
+            YOUR_PHOTOS.forEach((photoName, index) => {
+                const img = document.createElement('img');
+                // Adds the 'pics/' prefix automatically
+                img.src = `pics/${photoName}`; 
+                img.classList.add('pop-photo');
+                
+                // Get position by cycling through the corners (0, 1, 2, 3...)
+                const position = cornerPositions[index % 4];
+                
+                img.style.left = position.left;
+                img.style.top = position.top;
+
+                // Random Rotation
+                const randomRot = Math.random() * 50 - 25;
+                img.style.setProperty('--r', randomRot + 'deg');
+
+                // Staggered Delay
+                img.style.animationDelay = (0.5 + index * 0.4) + 's';
+                
+                container.appendChild(img);
+            });
+        }
+
+        // --- Confetti ---
+        function launchConfetti() {
+            var duration = 15 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+    </script>
+</body>
+</html>
