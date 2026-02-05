@@ -1,17 +1,17 @@
 # V-day-2026
 
-# 💝 Valentine's Day Proposal Website
+#  Valentine's Day Proposal Website
 
 A romantic, interactive, and animated web experience designed to ask that special someone to be your Valentine. Built with HTML, CSS, and JavaScript, this project features glassmorphism UI, a reactive "No" button, a blooming flower animation, and a personalized photo gallery.
 
 ## Features
 
-* **🔒 Security Check:** A login screen that restricts access to a specific name (e.g., "Therese").
-* **🐻 Cute Animations:** Integrated GIFs to set the mood.
-* **🖱️ Reactive UI:** A playful "No" button that shrinks while the "Yes" button grows with every click, making rejection impossible!
-* **🌹 Live Blooming Flower:** A CSS-only animation of a rose growing and blooming upon acceptance.
-* **🎉 Celebration Mode:** Triggers professional-grade confetti and a background music track ("Helpless" from Hamilton).
-* **📸 Photo Popups:** Automatically displays a gallery of your favorite memories in the four corners of the screen.
+* **Security Check:** A login screen that restricts access to a specific name (e.g., "Therese").
+* **Cute Animations:** Integrated GIFs to set the mood.
+* **Reactive UI:** A playful "No" button that shrinks while the "Yes" button grows with every click, making rejection impossible!
+* **Live Blooming Flower:** A CSS-only animation of a rose growing and blooming upon acceptance.
+* **Celebration Mode:** Triggers professional-grade confetti and a background music track ("Helpless" from Hamilton).
+* **Photo Popups:** Automatically displays a gallery of your favorite memories in the four corners of the screen.
 
 ## 📂 Project Structure
 
